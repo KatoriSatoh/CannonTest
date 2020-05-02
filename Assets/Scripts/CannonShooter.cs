@@ -4,11 +4,13 @@ using UnityEngine;
 public class CannonShooter : MonoBehaviour
 {
     [SerializeField]
-    private GameObject cannonBall;
+    private CannonBall cannonBall;
     [SerializeField]
     private GameObject vfxShoot;
     [SerializeField]
     private GameObject vfxFire;
+    [SerializeField]
+    private float swellMax;
 
     public static event Action<float> OnCharging = delegate {};
 
@@ -54,6 +56,8 @@ public class CannonShooter : MonoBehaviour
                 Explode();
             }
 
+            float swellValue = 1 + swellMax * chargePower / GameDefine.CANNON_CHARGE_MAX;
+            transform.localScale = Vector3.one * swellValue;
             OnCharging(chargePower);
         }
     }
@@ -65,11 +69,12 @@ public class CannonShooter : MonoBehaviour
         runOnce = false;
         isCharging = false;
 
-        GameObject go = Instantiate(cannonBall, transform.position, transform.rotation);
-        Rigidbody rb = go.GetComponent<Rigidbody>();
+        cannonBall.transform.parent = null;
+        Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
         rb.AddForce(transform.forward * chargePower * GameDefine.CANNON_POWER_PER_CHARGE);
 
-        Instantiate(vfxShoot, transform.position, Quaternion.identity);
+        Instantiate(vfxShoot, cannonBall.transform.position, Quaternion.identity);
     }
 
     private void Explode()
@@ -77,7 +82,7 @@ public class CannonShooter : MonoBehaviour
         runOnce = false;
         isCharging = false;
 
-        Instantiate(vfxFire, transform.position - transform.forward * 2, Quaternion.identity);
+        Instantiate(vfxFire, transform.position, Quaternion.identity);
 
         GameMgr.Instance.GameOver();
     }

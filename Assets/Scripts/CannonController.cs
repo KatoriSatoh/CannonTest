@@ -18,11 +18,11 @@ public class CannonController : MonoBehaviour
         if (Input.GetMouseButton(0) && !GameMgr.Instance.IsGameOver)
         {
             degX += Input.GetAxis("Mouse Y") * rotateSpeed;
-            degY -= Input.GetAxis("Mouse X") * rotateSpeed;
+            // degY -= Input.GetAxis("Mouse X") * rotateSpeed;
             degX = Mathf.Clamp(degX, GameDefine.CANNON_ROTATION_X_MIN, GameDefine.CANNON_ROTATION_X_MAX);
 
-            Quaternion target = Quaternion.Euler(degX, degY, 0);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, 7.5f * Time.deltaTime);
+            Quaternion target = Quaternion.Euler(degX, 0, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target, .125f);
         }
     }
 }

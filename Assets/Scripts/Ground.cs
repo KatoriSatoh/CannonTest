@@ -27,8 +27,8 @@ public class Ground : MonoBehaviour
 
             float x = Random.Range(-Size / 2, Size / 2);
             float z = Random.Range(-Size / 2, Size / 2);
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360f), 0);
-            float scale = Random.Range(.2f, 1f);
+            Quaternion rotation = Quaternion.Euler(-90, Random.Range(0, 360f), 0);
+            float scale = Random.Range(20f, 50f);
             
             deco.transform.localPosition = new Vector3(x, 0, z);
             deco.transform.rotation = rotation;
